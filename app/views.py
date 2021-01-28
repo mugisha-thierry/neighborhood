@@ -11,7 +11,7 @@ from django.urls import reverse
 from .forms import SignUpForm
 
 # Create your views here.
-
+# @login_required(login_url='login')
 def home(request):
     return render(request, 'home.html')
 
