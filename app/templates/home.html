@@ -2,5 +2,150 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>Neighbors</h1>
+<style>
+    .card-img {
+        width: 100%;
+        height: 38vw;
+        object-fit: cover;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+</style>
+
+<div id="carouselExampleControls" class="carousel slide d-none d-md-block" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="card-img">
+                <img class="d-block w-100"
+                    src="https://stalbert.ca/site/assets/files/11242/2020-04-30-goodneighbourhood-websitebanner-final.jpg"
+                    alt="First slide"></div>
+            <div class="carousel-caption p-5 d-none d-md-block text-light" style="position: fixed; /* Sit on top of the page content */
+      display: none; /* Hidden by default */
+      width: 100%; /* Full width (cover the whole page) */
+      height: 100%; /* Full height (cover the whole page) */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5)">
+                <h1 class="text-light m-5" style="margin-top: 50px;">Neighbourhood</h1>
+                <h4>If you are like me, You really don’t know what is happening in your neighborhood most of the time.
+                    <br> <i class="fab fa-creative-commons-sampling"></i><br> What if an important meeting happens,
+                    theft or even death wouldn’t you like to know about it.</h4>
+                <button type="button" class="btn btn-primary mt-4 text-light mr-4" data-toggle="modal"
+                    data-target="#exampleModal">
+                    Add Post
+                </button>
+            </div>
+        </div>
+        {% for post in posts %}
+        <div class="carousel-item">
+            <div class="card-img">
+                <img class="d-block w-100" src="{{ post.post_image.url }}" alt="................."></div>
+            <div class="carousel-caption p-5 d-none d-md-block text-light" style="position: fixed; /* Sit on top of the page content */
+      display: none; /* Hidden by default */
+      width: 100%; /* Full width (cover the whole page) */
+      height: 100%; /* Full height (cover the whole page) */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5)">
+                <h2 class="text-light m-5" style="margin-top: 50px;">{{post.title}}</h2>
+                <div class="row justify-content-center m-5">
+                </div>
+                <button type="button" class="btn btn-primary mt-4 text-light mr-4" data-toggle="modal"
+                    data-target="#exampleModal">
+                    Add Post
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h3 class="text-center"> <strong> Businesses in the hood </strong></h3>
+            {% for infrastructure in neighbourhood_infrastructures %}
+            {% if user.profile.my_neighborhood_name == infrastructure.neighbourhood %}
+            {% if infrastructure.department_name == 'businesses' %}
+            <h5>*{{infrastructure.infrastructure_name}}</h5>
+            <p>Email: {{infrastructure.email}}, Phone number:{{infrastructure.phone}} <br>Location: {{infrastructure.infrastructure_location}}</p>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <h3 class="text-center"> <strong>Emergence Departments </strong></h3>
+            {% for infrastructure in neighbourhood_infrastructures %}
+            {% if user.profile.my_neighborhood_name == infrastructure.neighbourhood %}
+            {% if infrastructure.department_name == 'emergence' %}
+            <h5>*{{infrastructure.infrastructure_name}}</h5>
+            <p>Email: {{infrastructure.email}}, Phone number:{{infrastructure.phone}} <br>Location: {{infrastructure.infrastructure_location}}</p>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <h3 class="text-center m-4" style="color: red;">All Posts</h3>
+    <hr>
+
+    <div class="row justify-content-center">
+        {% for post in posts %}
+
+        <div class="card col-md-3 m-3">
+            <a href="#"><img class="card-img-top" width="100%" src="{{ post.post_image.url }}" alt="-------"></a>
+
+            <div class="card-body">
+                <h5 class="card-title"><span>{{post.title}}</span></h5>
+                <p class="card-text"><small class="text-muted">{{post.date|date}}</small></p>
+                <a href="{% url 'post' post.id %}" class="btn btn-block  p-2">See more</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                {% if user.is_authenticated %}
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-sm btn-info" value="Save" />
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">Close
+                    </button>
+                </form>
+                {% else %}
+                <p>Login first to create a post</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
