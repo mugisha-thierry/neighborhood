@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1 class="text-center">System Admin page</h1>
+<div class="text-center"><a href="/create_neighbourhood" class="btn btn-primary">Create a neighbourhood</a></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h1>Neighbourhoods</h1>
+            <hr>
+            {% for neighbourhood in neighbourhoods %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{neighbourhood.neighbourhood_name|title}}</h5>
+                    <p class="card-text">This neighbourhood is located in
+                        <strong>{{neighbourhood.neighbourhood_location}}</strong> and has occupants_count of
+                        <strong></strong>{{neighbourhood.occupants_count}} </strong>.</p>
+                    <a href="{% url 'edit_neighbourhood' neighbourhood.neighbourhood_name  %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'del_neighbourhood' neighbourhood.neighbourhood_name  %}" class="btn btn-primary">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <h1>All Users</h1>
+            <hr>
+            {% for user in users %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{user.username|title}}</h5>
+                    <p class="card-text">Email: {{user.email}}</p>
+                    <p class="card-text">Status: {{ user.groups.all.0 }}</p>
+                    <a href="#" class="btn btn-primary">Change status</a>
+                    <a href="{% url 'del_user' user.username  %}" class="btn btn-primary">Remove</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
