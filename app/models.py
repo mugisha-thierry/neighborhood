@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tinymce.models import HTMLField
+# from tinymce.models import HTMLField
 import datetime as dt
 from django.db.models import Q
 
@@ -21,7 +21,7 @@ class neighbourhood(models.Model):
 
 class Profile(models.Model):
     avatar = models.ImageField(upload_to='avatars/')
-    description = HTMLField()
+    # description = HTMLField()
     neighbourhood = models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
     username = models.ForeignKey(User,on_delete=models.CASCADE)
     name =models.CharField(max_length=100)
@@ -48,7 +48,7 @@ class Health(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to='post/')
-    post = HTMLField()
+    # post = HTMLField()
     username = models.ForeignKey(User,on_delete=models.CASCADE)
     neighbourhood= models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
     post_date = models.DateTimeField(auto_now_add=True)
