@@ -1,13 +1,7 @@
 from django.db import models
 from phone_field import PhoneField
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 # from tinymce.models import HTMLField
-=======
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from tinymce.models import HTMLField
->>>>>>> 3e6cec0780d60a074a8141b8c4712242d275a56d
 import datetime as dt
 from django.db.models import Q
 
@@ -62,7 +56,6 @@ class Neighbourhood(models.Model):
     # def get_absolute_url(self):
     #     return f"/project/{self.id}"
 
-<<<<<<< HEAD
 class Profile(models.Model):
     avatar = models.ImageField(upload_to='avatars/')
     # description = HTMLField()
@@ -70,17 +63,6 @@ class Profile(models.Model):
     username = models.ForeignKey(User,on_delete=models.CASCADE)
     name =models.CharField(max_length=100)
     email = models.EmailField()
-=======
-
-    def delete_neighbourhood(self):
-        self.delete()
-
-    @classmethod
-    def search_by_neighbourhood(cls,search_term):
-        certain_user = cls.objects.filter(title__icontains = search_term)
-        return certain_user
-  
->>>>>>> 3e6cec0780d60a074a8141b8c4712242d275a56d
 
     def __str__(self):
         return self.neighbourhood_name
@@ -130,19 +112,12 @@ class Neighbourhood_infrastructure(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=150)
-<<<<<<< HEAD
     image = models.ImageField(upload_to='post/')
     # post = HTMLField()
     username = models.ForeignKey(User,on_delete=models.CASCADE)
     neighbourhood= models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
     post_date = models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='avatars/')
-=======
-    post_image = models.ImageField(upload_to='post/')
-    post_details = HTMLField()
-    date = models.DateTimeField(auto_now_add=True, null=True)
-    user = models.ForeignKey(Profile,null=True, on_delete=models.CASCADE, related_name='posts')
->>>>>>> 3e6cec0780d60a074a8141b8c4712242d275a56d
 
     def __str__(self):
         return self.title    
