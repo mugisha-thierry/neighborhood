@@ -25,10 +25,7 @@
 
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'my-profile'%}">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'update-profile' %}">Edit Profile</a>
+        <a class="nav-link" href="{% url 'profile' user.username  %}">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
@@ -36,13 +33,13 @@
 
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="/accounts/login">Sign In</a>
+        <a class="nav-link" href="/login">Sign In</a>
       </li>
       {% endif %}
     </ul>
-    <form class="form-inline my-2 my-lg-0" role="search" action="{% url 'search_results'%}">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="post">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline my-2 my-lg-0" action="/search" role="search"">
+      <input class="form-control mr-sm-2 bg-light text-dark" type="search" name="searchproject" placeholder="Search for a business" aria-label="Search" style="border: 0px; border-bottom: 2px solid black; outline: none;">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
     </form>
   </div>
 </nav>

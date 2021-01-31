@@ -1,32 +1,76 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="container" style="background-image:url('https://media.istockphoto.com/photos/dark-black-and-blue-grungy-wall-background-for-display-or-montage-of-picture-id1150477705?k=6&m=1150477705&s=612x612&w=0&h=q0f-napJKrSFE3ETwopLe6ETDRXk50zv7hctci_-j4A='); height:49.7rem">
-  <div class="row">
-    <div class="col-md-12 top-div" style="margin-top:40px;"></div>
-  </div>
-  <div class="text-center">
-    <a href="{% url 'new-post' %}">
-      <button class="btn btn-primary" style="height:50px;  margin-top: -6px;">Post an Update</button>
-    </a>
-  </div>
-  <div class="row">
-    {% for post in posts %}
-    <div class="col-md-6">
-      <div class="card" style="width: 30rem;margin-top:10px;">
-        <div class="card-body">
-          <a href="/view/post/{{post.id}}" style="color:black;text-decoration:none;margin:auto;">
-            <h5 class="card-title">{{post.title}}</h5>
-          </a>
-          <a href="/user/{{post.username}}" style="color:black;text-decoration:none;margin:auto;">
-            <h6 class="card-subtitle mb-2 text-muted">{{post.username}}</h6>
-          </a>
-          <p class="card-text">{{post.post|truncatechars:150 | safe}}</p>
-          <a href="/view/post/{{post.id}}" class="card-link">continue reading</a>
+<div class="container mt-5 mb-5 first">
+  <div class="row ">
+    <div class="card col-md-7">
+      <img class="card-img-top" width="100%" src="{{ post.post_image.url }}" alt="-------">
+      <div class="card-body">
+        <h5 class="card-title"><strong>{{post.title|title}}</strong></h5>
+        <p class="card-text"><small class="text-muted">{{post.post_details}}</small></p>
+       
+        <p class="card-text"><small class="text-muted"><strong>By : </strong> {{ post.user.user.username}}</small></p>
+
+        <p class="card-text"><small class="text-muted"><strong>On :</strong>{{post.date|date}}</small></p>
+        <div class="row justify-content-center">
+          <a data-toggle="modal" data-target="#exampleModal2" class="btn btn-dark btn-sm col-md-4 p-2" style="color: white;">Comment on post</a>
         </div>
       </div>
     </div>
-    {% endfor %}
+
+
+    <div class="col-md-4">
+      {% for comment in comments %}
+
+      {% if post.id == comment.post.id %}
+      <div class="row">
+        <div class="col-md-2">
+          <b style="color: blue;"> {{comment.user.username}}:</b></div>
+          <div class="col-md-1"></div>
+        <div class="col-md-3">
+          <p>Content <br> {{comment.commenting}}</p>
+        </div>
+      </div>
+      <div class="col">
+        <hr>
+      </div>
+      {%endif%}
+
+      {% endfor  %}
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comment on post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+            {% if user.is_authenticated %}
+        <form  action="" method="POST" enctype="multipart/form-data">
+          {%csrf_token%}
+      
+          {% include 'form.html' %}
+          <input type="submit" class="btn btn-sm" value="Rate">
+          <button type="button" class="btn btn-sm" style="background-color: black; color: blanchedalmond;" data-dismiss="modal">Close
+          </button>
+        </form>
+        {% else %}
+        <p>Login first to comment on post</p>
+        {% endif %}
+      </div>
+
+      </div>
+    </div>
   </div>
 </div>
-{% endblock %}
+
+
+
+  {% endblock %}

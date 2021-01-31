@@ -1,5 +1,5 @@
 # Neighborhood App
-
+![](https://stalbert.ca/site/assets/files/11242/2020-04-30-goodneighbourhood-websitebanner-final.jpg)
 ## Authors  
  * Mugisha Thierry
  * Rickymwethera
